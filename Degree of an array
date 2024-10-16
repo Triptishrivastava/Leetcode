@@ -1,0 +1,64 @@
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+
+       HashMap<Integer, Integer> freqMap = new HashMap<>();
+        HashMap<Integer, Integer> firstIndexMap = new HashMap<>();
+        HashMap<Integer, Integer> lastIndexMap = new HashMap<>();
+
+        // Variables to store the degree of the array
+        int degree = 0;
+        int minLength = nums.length;
+
+        // Iterate through the array
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+
+            // Update frequency map
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+
+            // Update first occurrence map if it doesn't exist for the current number
+            if (!firstIndexMap.containsKey(num)) {
+                firstIndexMap.put(num, i);
+            }
+
+            // Update last occurrence map
+            lastIndexMap.put(num, i);
+
+            // Update the degree of the array
+            degree = Math.max(degree, freqMap.get(num));
+        }
+
+        // Find the smallest subarray with the same degree
+        for (int num : freqMap.keySet()) {
+            if (freqMap.get(num) == degree) {
+                int subarrayLength = lastIndexMap.get(num) - firstIndexMap.get(num) + 1;
+                minLength = Math.min(minLength, subarrayLength);
+            }
+        }
+
+        return minLength;
+
+        // int count=0;
+
+        // for(int el: nums) {
+        //     if(!hs.contains(el)){
+        //         hs.add(el);
+        //     } else {
+        //         hs.remove(el);
+        //         count++;
+        //     }
+        // } 
+        // if(nums.length==1){
+        //     return 1;
+        // }
+
+        // if(!hs.isEmpty()&&count>1){
+        //     return hs.size()*count;
+        // }
+        // if(count==1){
+        //     return nums.length;
+        // }
+        // return count;
+        
+    }
+}
